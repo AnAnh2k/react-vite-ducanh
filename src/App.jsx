@@ -2,14 +2,7 @@ import { useState } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
-
-const MyComponent = () => {
-  return (
-    <>
-      <h1>Cố lên có công mài sắt có ngày nên duyên</h1>
-    </>
-  );
-};
+import MyComponent from "./components/learn/MyComponent";
 
 const App = () => {
   const [count, setCount] = useState(0);
