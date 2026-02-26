@@ -8,7 +8,7 @@ const App = () => {
   const name = "Đức Anh";
 
   const addNewTodo = (name) => {
-    alert(`call me  ${name}`);
+    alert(`call me  ${JSON.stringify(name)}`);
   };
 
   return (
