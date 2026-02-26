@@ -3,12 +3,15 @@ import TodoData from "./components/todo/TodoData";
 import TodoNew from "./components/todo/TodoNew";
 
 import logo from "./assets/react.svg";
+import { useState } from "react";
 
 const App = () => {
-  const name = "Đức Anh";
-
+  const [totoList, setTodoList] = useState([
+    { id: 1, name: "Learning React" },
+    { id: 2, name: "Watching Youtube" },
+  ]);
   const addNewTodo = (name) => {
-    alert(`call me  ${JSON.stringify(name)}`);
+    alert(`call me = ${name}`);
   };
 
   return (
@@ -16,7 +19,7 @@ const App = () => {
       <div className="todo-container">
         <div className="todo-title">Todo List</div>
         <TodoNew addNewTodo={addNewTodo} />
-        <TodoData name={name} />
+        <TodoData totoList={totoList} setTodoList={setTodoList} />
         <div className="todo-image">
           <img src={logo} alt="" className="logo" />
         </div>
