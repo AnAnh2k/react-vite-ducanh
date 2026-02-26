@@ -12,6 +12,7 @@ const TodoNew = (props) => {
   const handleClick = () => {
     console.log(">>> check valueInput: ", valueInput);
     addNewTodo(valueInput);
+    SetValueInput("");
   };
   return (
     <>
