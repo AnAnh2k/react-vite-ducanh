@@ -10,12 +10,7 @@ export default function ErrorPage() {
           Xin lỗi, trang bạn đang tìm kiếm không tồn tại hoặc đã bị xoá.
         </p>
 
-        <button
-          style={styles.button}
-          onClick={() => (window.location.href = "/")}
-        >
-          Quay về trang chủ
-        </button>
+        <button style={styles.button}>Quay về trang chủ</button>
       </div>
     </div>
   );

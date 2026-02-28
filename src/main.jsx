@@ -1,9 +1,13 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
-// import './index.css'
+import "./styles/global.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import ErrorPage from "./components/error/ErrorPage.jsx";
+import ErrorPage from "./pages/ErrorPage.jsx";
+import LoginPage from "./pages/LoginPage.jsx";
+import RegisterPage from "./pages/RegisterPage.jsx";
+import UserPage from "./pages/UserPage.jsx";
+import ProductPage from "./pages/ProductPage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -13,19 +17,19 @@ const router = createBrowserRouter([
   },
   {
     path: "/login",
-    element: <div>Login page</div>,
+    element: <LoginPage />,
   },
   {
     path: "/register",
-    element: <div>Register page</div>,
+    element: <RegisterPage />,
   },
   {
-    path: "/user",
-    element: <div>Users page</div>,
+    path: "/users",
+    element: <UserPage />,
   },
   {
-    path: "/product",
-    element: <div>Products page</div>,
+    path: "/products",
+    element: <ProductPage />,
   },
 ]);
 
