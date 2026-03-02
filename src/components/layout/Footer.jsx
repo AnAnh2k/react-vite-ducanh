@@ -1,9 +1,8 @@
-import React from "react";
 import "./footer.css";
 
 const Footer = () => {
   return (
-    <div className="footer">
+    <footer className="footer">
       <div className="footer-container">
         <div className="footer-section">
           <h3>My Website</h3>
@@ -27,7 +26,7 @@ const Footer = () => {
       <div className="footer-bottom">
         © {new Date().getFullYear()} Đức Anh. All rights reserved.
       </div>
-    </div>
+    </footer>
   );
 };
 

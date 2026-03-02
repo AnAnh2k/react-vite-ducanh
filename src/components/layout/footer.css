@@ -2,7 +2,10 @@
   background-color: #111827;
   color: #ffffff;
   padding: 40px 20px;
-  margin-top: 60px;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
 }
 
 .footer-container {
