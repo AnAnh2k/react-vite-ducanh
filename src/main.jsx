@@ -7,8 +7,8 @@ import ErrorPage from "./pages/ErrorPage.jsx";
 import LoginPage from "./pages/LoginPage.jsx";
 import RegisterPage from "./pages/RegisterPage.jsx";
 import UserPage from "./pages/UserPage.jsx";
-import ProductPage from "./pages/ProductPage.jsx";
 import TodoApp from "./components/todo/TodoApp.jsx";
+import BookPage from "./pages/BookPage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -34,8 +34,8 @@ const router = createBrowserRouter([
         element: <UserPage />,
       },
       {
-        path: "/products",
-        element: <ProductPage />,
+        path: "/books",
+        element: <BookPage />,
       },
     ],
   },
