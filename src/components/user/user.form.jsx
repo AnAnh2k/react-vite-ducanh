@@ -2,6 +2,14 @@ import { Button, Input } from "antd";
 import React from "react";
 
 const UserForm = () => {
+  const [fullName, setFullName] = React.useState("");
+  const [email, setEmail] = React.useState("");
+  const [password, setPassword] = React.useState("");
+  const [phoneNumber, setPhoneNumber] = React.useState("");
+
+  const hanldeClickBtn = () => {
+    console.log("check data: ", { fullName, email, password, phoneNumber });
+  };
   return (
     <div
       className="user-form"
@@ -10,22 +18,47 @@ const UserForm = () => {
       <div style={{ display: "flex", gap: "15px", flexDirection: "column" }}>
         <div>
           <span>FullName</span>
-          <Input placeholder="Basic usage" />
+          <Input
+            placeholder="FullName"
+            value={fullName}
+            onChange={(event) => setFullName(event.target.value)}
+          />
         </div>
         <div>
           <span>Email</span>
-          <Input placeholder="Basic usage" />
+          <Input
+            placeholder="Email"
+            value={email}
+            onChange={(event) => setEmail(event.target.value)}
+          />
         </div>
         <div>
           <span>Password</span>
-          <Input.Password placeholder="Basic usage" />
+          <Input.Password
+            placeholder="Password"
+            value={password}
+            onChange={(event) => {
+              setPassword(event.target.value);
+            }}
+          />
         </div>
         <div>
           <span>Phone Number</span>
-          <Input placeholder="Basic usage" />
+          <Input
+            placeholder="Phone Number"
+            value={phoneNumber}
+            onChange={(event) => setPhoneNumber(event.target.value)}
+          />
         </div>
         <div>
-          <Button type="primary">Create User</Button>
+          <Button
+            type="primary"
+            onClick={() => {
+              hanldeClickBtn();
+            }}
+          >
+            Create User
+          </Button>
         </div>
       </div>
     </div>
