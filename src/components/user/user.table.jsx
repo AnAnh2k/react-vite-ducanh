@@ -40,7 +40,14 @@ const UserTable = () => {
   };
 
   loadUser();
-  return <Table columns={columns} dataSource={dataUsers} rowKey={"_id"} />;
+  return (
+    <Table
+      style={{ margin: "20px 20px" }}
+      columns={columns}
+      dataSource={dataUsers}
+      rowKey={"_id"}
+    />
+  );
 };
 
 export default UserTable;
