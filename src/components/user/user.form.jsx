@@ -2,13 +2,15 @@ import { Button, Input, Modal, notification } from "antd";
 import React from "react";
 import { createUserAPI } from "../../services/api.service";
 
-const UserForm = () => {
+const UserForm = (props) => {
   const [fullName, setFullName] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [phoneNumber, setPhoneNumber] = React.useState("");
 
   const [isModalOpen, setIsModalOpen] = React.useState(false);
+
+  const { loadUser } = props;
 
   const handleSubmitBtn = async () => {
     const res = await createUserAPI(fullName, email, password, phoneNumber);
@@ -17,7 +19,8 @@ const UserForm = () => {
         message: "Create user",
         description: "Create user successfully",
       });
-      setIsModalOpen(false);
+      resetAndCloseModal();
+      await loadUser();
     } else {
       notification.error({
         message: "Create user",
@@ -25,6 +28,15 @@ const UserForm = () => {
       });
     }
   };
+
+  const resetAndCloseModal = () => {
+    setFullName("");
+    setEmail("");
+    setPassword("");
+    setPhoneNumber("");
+    setIsModalOpen(false);
+  };
+
   return (
     <div className="user-form" style={{ margin: "10px 20px" }}>
       <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -42,7 +54,7 @@ const UserForm = () => {
         title="Create User"
         open={isModalOpen}
         onOk={() => handleSubmitBtn()}
-        onCancel={() => setIsModalOpen(false)}
+        onCancel={() => resetAndCloseModal()}
         okText="Create"
         maskClosable={false}
       >
