@@ -1,16 +1,16 @@
 import { Button, Input, Modal, notification } from "antd";
-import React from "react";
+import React, { useState } from "react";
 import { createUserAPI } from "../../services/api.service";
 
 const UserForm = (props) => {
-  const [fullName, setFullName] = React.useState("");
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
-  const [phoneNumber, setPhoneNumber] = React.useState("");
-
-  const [isModalOpen, setIsModalOpen] = React.useState(false);
-
   const { loadUser } = props;
+
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleSubmitBtn = async () => {
     const res = await createUserAPI(fullName, email, password, phoneNumber);

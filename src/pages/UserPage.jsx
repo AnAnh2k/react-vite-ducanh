@@ -28,8 +28,10 @@ const UserPage = () => {
 
   return (
     <>
-      <UserForm loadUser={loadUser} />
-      <UserTable dataUsers={dataUsers} />
+      <div style={{ margin: "20px", marginBottom: "60px" }}>
+        <UserForm loadUser={loadUser} />
+        <UserTable dataUsers={dataUsers} />
+      </div>
     </>
   );
 };
