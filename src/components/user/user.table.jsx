@@ -7,13 +7,7 @@ import UpdateUserModal from "./update.user.modal";
 const UserTable = (props) => {
   const { dataUsers } = props;
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const [id, setId] = useState("");
-  const [fullName, setFullName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-
+  const [dataUpdate, setDataUpdate] = useState(null);
   const columns = [
     {
       title: "Id",
@@ -40,12 +34,9 @@ const UserTable = (props) => {
         <div style={{ display: "flex", gap: "20px" }}>
           <EditOutlined
             onClick={() => {
+              setDataUpdate(record);
+              console.log("record", record);
               setIsModalOpen(true);
-              setId(record._id);
-              setFullName(record.fullName);
-              setEmail(record.email);
-              setPassword(record.password);
-              setPhoneNumber(record.phone);
             }}
             style={{ cursor: "pointer", color: "orange" }}
           />
@@ -66,15 +57,8 @@ const UserTable = (props) => {
       <UpdateUserModal
         isModalOpen={isModalOpen}
         setIsModalOpen={setIsModalOpen}
-        id={id}
-        fullName={fullName}
-        email={email}
-        password={password}
-        phoneNumber={phoneNumber}
-        setFullName={setFullName}
-        setEmail={setEmail}
-        setPassword={setPassword}
-        setPhoneNumber={setPhoneNumber}
+        dataUpdate={dataUpdate}
+        setDataUpdate={setDataUpdate}
       />
     </>
   );
