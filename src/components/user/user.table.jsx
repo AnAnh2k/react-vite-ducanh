@@ -5,7 +5,7 @@ import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import UpdateUserModal from "./update.user.modal";
 
 const UserTable = (props) => {
-  const { dataUsers } = props;
+  const { dataUsers, loadUser } = props;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [dataUpdate, setDataUpdate] = useState(null);
   const columns = [
@@ -59,6 +59,7 @@ const UserTable = (props) => {
         setIsModalOpen={setIsModalOpen}
         dataUpdate={dataUpdate}
         setDataUpdate={setDataUpdate}
+        loadUser={loadUser}
       />
     </>
   );

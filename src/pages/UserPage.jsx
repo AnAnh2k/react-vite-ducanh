@@ -30,7 +30,7 @@ const UserPage = () => {
     <>
       <div style={{ margin: "20px", marginBottom: "60px" }}>
         <UserForm loadUser={loadUser} />
-        <UserTable dataUsers={dataUsers} />
+        <UserTable dataUsers={dataUsers} loadUser={loadUser} />
       </div>
     </>
   );
