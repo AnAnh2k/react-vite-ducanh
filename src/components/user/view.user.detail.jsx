@@ -1,8 +1,13 @@
-import { Button, Drawer } from "antd";
+import { Button, Drawer, notification } from "antd";
 import React, { useState } from "react";
+import {
+  handleUploadFile,
+  updateUserAvatarAPI,
+} from "../../services/api.service";
 
 const ViewUserDetail = (props) => {
-  const { openDetail, setOpenDetail, dataDetail, setDataDetail } = props;
+  const { openDetail, setOpenDetail, dataDetail, setDataDetail, loadUser } =
+    props;
   const [selectedFile, setSelectedFile] = useState(null);
   const [preview, setPreview] = useState(null);
 
@@ -13,7 +18,7 @@ const ViewUserDetail = (props) => {
 
   const handleOnchangeFile = (event) => {
     if (!event.target.files || event.target.files.length === 0) {
-      selectedFile(null);
+      setSelectedFile(null);
       setPreview(null);
       return;
     }
@@ -23,10 +28,47 @@ const ViewUserDetail = (props) => {
     if (file) {
       setSelectedFile(file);
       setPreview(URL.createObjectURL(file));
-      console.log("file: ", file);
     }
   };
-  console.log("preview: ", preview);
+
+  const handleUpdateUserAvatar = async () => {
+    //step 1: upload file to
+
+    const resUpload = await handleUploadFile(selectedFile, "avatar");
+
+    if (resUpload.data) {
+      const newAvatar = resUpload.data.fileUploaded;
+      //step 2: update user with new avatar
+      const resUpdateAvatar = await updateUserAvatarAPI(
+        newAvatar,
+        dataDetail._id,
+        dataDetail.fullName,
+        dataDetail.phone,
+      );
+      if (resUpdateAvatar.data) {
+        setOpenDetail(false);
+        setSelectedFile(null);
+        setPreview(null);
+        await loadUser();
+
+        notification.success({
+          message: "Update user avatar",
+          description: "Update user avatar successfully",
+        });
+      } else {
+        notification.error({
+          message: "Update user avatar failed",
+          description: JSON.stringify(resUpdateAvatar.message),
+        });
+      }
+    } else {
+      notification.error({
+        message: "Upload file failed",
+        description: JSON.stringify(resUpload.message),
+      });
+    }
+  };
+
   return (
     <Drawer
       width={"40vw"}
@@ -87,19 +129,30 @@ const ViewUserDetail = (props) => {
             />
           </div>
           {preview && (
-            <div>
-              <p style={{ marginBottom: "20px" }}>Preview:</p>
-              <img
-                style={{
-                  height: "150px",
-                  width: "150px",
-                  objectFit: "cover",
-                  border: "1px solid #ccc",
+            <>
+              <div>
+                <p style={{ marginBottom: "20px" }}>Preview:</p>
+                <img
+                  style={{
+                    height: "150px",
+                    width: "150px",
+                    objectFit: "cover",
+                    border: "1px solid #ccc",
+                  }}
+                  src={preview}
+                  alt="Preview"
+                />
+              </div>
+              <Button
+                style={{ display: "inline-block", width: "100px" }}
+                type="primary"
+                onClick={() => {
+                  handleUpdateUserAvatar();
                 }}
-                src={preview}
-                alt="Preview"
-              />
-            </div>
+              >
+                Save
+              </Button>
+            </>
           )}
         </div>
       ) : (
