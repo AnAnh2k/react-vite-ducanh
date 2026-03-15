@@ -6,7 +6,15 @@ import UpdateUserModal from "./update.user.modal";
 import ViewUserDetail from "./view.user.detail";
 
 const UserTable = (props) => {
-  const { dataUsers, loadUser, current, pageSize, total } = props;
+  const {
+    dataUsers,
+    loadUser,
+    current,
+    pageSize,
+    total,
+    setCurrent,
+    setPageSize,
+  } = props;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [dataUpdate, setDataUpdate] = useState(null);
   const [openDetail, setOpenDetail] = useState(false);
@@ -32,7 +40,9 @@ const UserTable = (props) => {
     {
       title: "STT",
       dataIndex: "stt",
-      render: (_, record, index) => <span>{index + 1}</span>,
+      render: (_, record, index) => (
+        <span>{index + 1 + (current - 1) * pageSize}</span>
+      ),
     },
     {
       title: "Avatar",
@@ -100,8 +110,18 @@ const UserTable = (props) => {
     },
   ];
 
-  const onChange = (pagination, filters, sorter, extra) => {
+  const onChange = async (pagination, filters, sorter, extra) => {
     console.log("params", { pagination, filters, sorter, extra });
+
+    if (pagination && pagination.current) {
+      //nếu thay đổi trang : current thay đổi
+      if (+pagination.current !== +current) {
+        setCurrent(+pagination.current);
+      }
+      if (+pagination.pageSize !== +pageSize) {
+        setPageSize(+pagination.pageSize);
+      }
+    }
   };
 
   return (
@@ -116,6 +136,7 @@ const UserTable = (props) => {
           pageSize: pageSize,
           showSizeChanger: true,
           total: total,
+          pageSizeOptions: [5, 10, 20, 50],
           showTotal: (total, range) => {
             return (
               <div>

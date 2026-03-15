@@ -23,7 +23,7 @@ const UserPage = () => {
 
   useEffect(() => {
     loadUser();
-  }, []);
+  }, [current, pageSize]);
 
   const loadUser = async () => {
     const res = await fetchAllUserAPI(current, pageSize);
@@ -45,6 +45,8 @@ const UserPage = () => {
           current={current}
           pageSize={pageSize}
           total={total}
+          setCurrent={setCurrent}
+          setPageSize={setPageSize}
         />
       </div>
     </>
