@@ -30,6 +30,22 @@ const UserTable = (props) => {
 
   const columns = [
     {
+      title: "STT",
+      dataIndex: "stt",
+      render: (_, record, index) => <span>{index + 1}</span>,
+    },
+    {
+      title: "Avatar",
+      dataIndex: "avatar",
+      render: (avatar) => (
+        <img
+          src={`${import.meta.env.VITE_BACKEND_URL}/images/avatar/${avatar}`}
+          alt="avatar"
+          style={{ width: "50px", height: "50px", borderRadius: "50%" }}
+        />
+      ),
+    },
+    {
       title: "Id",
       dataIndex: "_id",
 
