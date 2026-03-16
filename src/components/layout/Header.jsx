@@ -11,41 +11,7 @@ import { Menu } from "antd";
 import { useContext, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { AuthContext } from "../context/auth.context";
-const items = [
-  {
-    label: <NavLink to="/">Home</NavLink>,
-    key: "home",
-    icon: <HomeOutlined />,
-  },
-  {
-    label: <NavLink to="/books">Book</NavLink>,
-    key: "books",
-    icon: <BookOutlined />,
-    disabled: true,
-  },
-  {
-    label: <NavLink to="/users">User</NavLink>,
-    key: "users",
-    icon: <UserOutlined />,
-  },
-  {
-    label: "Setting",
-    key: "SubMenu",
-    icon: <SettingOutlined />,
-    children: [
-      {
-        label: <NavLink to="/login">Login</NavLink>,
-        key: "setting:1",
-        icon: <LoginOutlined />,
-      },
-      {
-        label: <NavLink to="/register">Register</NavLink>,
-        key: "setting:2",
-        icon: <UserAddOutlined />,
-      },
-    ],
-  },
-];
+
 const Header = () => {
   const [current, setCurrent] = useState("");
 
@@ -56,6 +22,60 @@ const Header = () => {
     console.log("click ", e);
     setCurrent(e.key);
   };
+
+  const items = [
+    {
+      label: <NavLink to="/">Home</NavLink>,
+      key: "home",
+      icon: <HomeOutlined />,
+    },
+    {
+      label: <NavLink to="/books">Book</NavLink>,
+      key: "books",
+      icon: <BookOutlined />,
+      disabled: true,
+    },
+    {
+      label: <NavLink to="/users">User</NavLink>,
+      key: "users",
+      icon: <UserAddOutlined />,
+    },
+
+    ...(!user.id
+      ? [
+          {
+            label: "Setting",
+            key: "SubMenu",
+            icon: <SettingOutlined />,
+            children: [
+              {
+                label: <NavLink to="/login">Login</NavLink>,
+                key: "setting:1",
+                icon: <LoginOutlined />,
+              },
+              {
+                label: <NavLink to="/register">Register</NavLink>,
+                key: "setting:2",
+                icon: <UserAddOutlined />,
+              },
+            ],
+          },
+        ]
+      : [
+          {
+            label: `Welcome: ${user?.fullName}`,
+            key: "account",
+            icon: <UserOutlined />,
+            children: [
+              {
+                label: <NavLink to="/login">Logout</NavLink>,
+                key: "logout",
+                icon: <LoginOutlined />,
+              },
+            ],
+          },
+        ]),
+  ];
   return (
     <Menu
       onClick={onClick}
