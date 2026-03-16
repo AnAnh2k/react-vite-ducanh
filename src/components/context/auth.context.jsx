@@ -19,7 +19,7 @@ export const AuthWrapper = (props) => {
     id: "",
   });
 
-  const [isAppLoading, setIsAppLoading] = useState(false);
+  const [isAppLoading, setIsAppLoading] = useState(true);
 
   return (
     <AuthContext.Provider

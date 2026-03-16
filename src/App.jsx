@@ -9,7 +9,8 @@ import { use, useContext, useEffect } from "react";
 import { AuthContext } from "./components/context/auth.context";
 
 const App = () => {
-  const { setUser } = useContext(AuthContext);
+  const { setUser, isAppLoading, setIsAppLoading } = useContext(AuthContext);
+
   useEffect(() => {
     fetchUserInfo();
   }, []);
@@ -19,18 +20,33 @@ const App = () => {
 
   const fetchUserInfo = async () => {
     const res = await getAccountAPI();
-    await delay(3000);
+    await delay(1500);
     if (res.data) {
       setUser(res.data.user);
     }
+    setIsAppLoading(false);
   };
 
   return (
     <>
-      <Header />
-
-      <Outlet />
-      <Footer />
+      {isAppLoading == true ? (
+        <div
+          style={{
+            position: "fixed",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%,-50%)",
+          }}
+        >
+          <Spin size="large" />
+        </div>
+      ) : (
+        <>
+          <Header />
+          <Outlet />
+          <Footer />
+        </>
+      )}
     </>
   );
 };

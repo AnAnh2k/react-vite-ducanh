@@ -9,7 +9,7 @@ import {
 } from "@ant-design/icons";
 import { Menu } from "antd";
 import { useContext, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { Navigate, NavLink } from "react-router-dom";
 import { AuthContext } from "../context/auth.context";
 
 const Header = () => {
@@ -33,7 +33,6 @@ const Header = () => {
       label: <NavLink to="/books">Book</NavLink>,
       key: "books",
       icon: <BookOutlined />,
-      disabled: true,
     },
     {
       label: <NavLink to="/users">User</NavLink>,
@@ -68,7 +67,17 @@ const Header = () => {
             icon: <UserOutlined />,
             children: [
               {
-                label: <NavLink to="/login">Logout</NavLink>,
+                label: (
+                  <NavLink
+                    onClick={() => {
+                      localStorage.removeItem("access_token");
+                      window.location.reload();
+                      Navigate("/login");
+                    }}
+                  >
+                    Logout
+                  </NavLink>
+                ),
                 key: "logout",
                 icon: <LoginOutlined />,
               },
