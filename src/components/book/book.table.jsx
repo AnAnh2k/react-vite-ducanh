@@ -1,0 +1,180 @@
+import React, { useState } from "react";
+import { deleteUserAPI } from "../../services/api.service";
+import { notification, Popconfirm, Table } from "antd";
+import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import ViewBookDetail from "./view.book.detail";
+
+const BookTable = (props) => {
+  const {
+    dataBooks,
+    loadBook,
+    current,
+    pageSize,
+    total,
+    setCurrent,
+    setPageSize,
+  } = props;
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [dataUpdate, setDataUpdate] = useState(null);
+  const [openDetailBook, setOpenDetailBook] = useState(false);
+  const [dataDetailBook, setDataDetailBook] = useState(null);
+
+  const handleSubmitBtn = async (id) => {
+    const res = await deleteUserAPI(id);
+    if (res.data) {
+      notification.success({
+        message: "Delete a user",
+        description: "Delete user successfully",
+      });
+      await loadBook();
+    } else {
+      notification.error({
+        message: "Delete user",
+        description: JSON.stringify(res.message),
+      });
+    }
+  };
+
+  const columns = [
+    {
+      title: "STT",
+      dataIndex: "stt",
+      render: (_, record, index) => (
+        <span>{index + 1 + (current - 1) * pageSize}</span>
+      ),
+    },
+    {
+      title: "Thumbnail",
+      dataIndex: "thumbnail",
+      render: (thumbnail) => (
+        <img
+          src={`${import.meta.env.VITE_BACKEND_URL}/images/book/${thumbnail}`}
+          alt="thumbnail"
+          style={{ width: "50px", height: "50px", borderRadius: "50%" }}
+        />
+      ),
+    },
+    {
+      title: "Id",
+      dataIndex: "_id",
+
+      render: (_, record) => (
+        <a
+          onClick={() => {
+            setOpenDetailBook(true);
+            setDataDetailBook(record);
+          }}
+        >
+          {record._id}
+        </a>
+      ),
+    },
+    {
+      title: "Title",
+      dataIndex: "mainText",
+    },
+    {
+      title: "Price",
+      dataIndex: "price",
+      render: (text) => {
+        if (text)
+          return new Intl.NumberFormat("vi-VN", {
+            style: "currency",
+            currency: "VND",
+          }).format(text);
+      },
+    },
+    {
+      title: "Quantity",
+      dataIndex: "quantity",
+    },
+    {
+      title: "Author",
+      dataIndex: "author",
+    },
+    {
+      title: "Action",
+      key: "action",
+      render: (_, record) => (
+        <div style={{ display: "flex", gap: "20px" }}>
+          <EditOutlined
+          // onClick={() => {
+          //   setDataUpdate(record);
+          //   console.log("record", record);
+          //   setIsModalOpen(true);
+          // }}
+          // style={{ cursor: "pointer", color: "orange" }}
+          />
+          <Popconfirm
+            title="Delete a user"
+            description="Are you sure to delete this user?"
+            onConfirm={() => handleSubmitBtn(record._id)}
+            okText="Yes"
+            placement="topRight"
+            cancelText="No"
+          >
+            <DeleteOutlined style={{ cursor: "pointer", color: "red" }} />{" "}
+          </Popconfirm>
+        </div>
+      ),
+    },
+  ];
+
+  const onChange = async (pagination, filters, sorter, extra) => {
+    console.log("params", { pagination, filters, sorter, extra });
+
+    if (pagination && pagination.current) {
+      //nếu thay đổi trang : current thay đổi
+      if (+pagination.current !== +current) {
+        setCurrent(+pagination.current);
+      }
+      if (+pagination.pageSize !== +pageSize) {
+        setPageSize(+pagination.pageSize);
+      }
+    }
+  };
+
+  return (
+    <>
+      <Table
+        style={{ margin: "20px 20px" }}
+        columns={columns}
+        dataSource={dataBooks}
+        rowKey={"_id"}
+        pagination={{
+          current: current,
+          pageSize: pageSize,
+          showSizeChanger: true,
+          total: total,
+          pageSizeOptions: [5, 10, 20, 50],
+          showTotal: (total, range) => {
+            return (
+              <div>
+                {" "}
+                {range[0]}-{range[1]} trên {total} rows
+              </div>
+            );
+          },
+        }}
+        onChange={onChange}
+      />
+      {/* <UpdateUserModal
+        isModalOpen={isModalOpen}
+        setIsModalOpen={setIsModalOpen}
+        dataUpdate={dataUpdate}
+        setDataUpdate={setDataUpdate}
+        loadUser={loadUser}
+      />
+      */}
+      <ViewBookDetail
+        openDetailBook={openDetailBook}
+        setOpenDetailBook={setOpenDetailBook}
+        setDataDetailBook={setDataDetailBook}
+        dataDetailBook={dataDetailBook}
+        loadBook={loadBook}
+      />
+    </>
+  );
+};
+
+export default BookTable;

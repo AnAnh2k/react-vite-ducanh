@@ -62,16 +62,50 @@ const logoutAPI = () => {
   const URL_BACKEND = "/api/v1/auth/logout";
   return axios.post(URL_BACKEND);
 };
+//======================================= book API =======================================
+const fetchAllBooksAPI = (current, pageSize) => {
+  const URL_BACKEND = `/api/v1/book?current=${current}&pageSize=${pageSize}`;
+  return axios.get(URL_BACKEND);
+};
+
+const createBookAPI = (
+  thumbnail,
+  mainText,
+  author,
+  price,
+  quantity,
+  category,
+) => {
+  const URL_BACKEND = "/api/v1/book";
+  const data = { thumbnail, mainText, author, price, quantity, category };
+  return axios.post(URL_BACKEND, data);
+};
+
+const handleUploadFileBook = (file, folder) => {
+  const URL_BACKEND = "/api/v1/file/upload";
+  let config = {
+    headers: {
+      "upload-Type": folder,
+      "content-type": "multipart/form-data",
+    },
+  };
+  const bodyFormData = new FormData();
+  bodyFormData.append("fileImg", file);
+  return axios.post(URL_BACKEND, bodyFormData, config);
+};
 
 export {
   createUserAPI,
   updateUserAPI,
   deleteUserAPI,
   fetchAllUserAPI,
+  fetchAllBooksAPI,
+  createBookAPI,
   handleUploadFile,
   updateUserAvatarAPI,
   registerUserAPI,
   loginUserAPI,
   getAccountAPI,
   logoutAPI,
+  handleUploadFileBook,
 };
