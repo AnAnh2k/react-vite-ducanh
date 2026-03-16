@@ -15,12 +15,12 @@ const App = () => {
     fetchUserInfo();
   }, []);
 
-  const delay = (miniSeconds) =>
-    new Promise((resolve, reject) => setTimeout(resolve, miniSeconds));
+  // const delay = (miniSeconds) =>
+  //   new Promise((resolve, reject) => setTimeout(resolve, miniSeconds));
 
   const fetchUserInfo = async () => {
     const res = await getAccountAPI();
-    await delay(1500);
+    // await delay(1500);
     if (res.data) {
       setUser(res.data.user);
     }

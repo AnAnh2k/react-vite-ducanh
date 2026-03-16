@@ -7,20 +7,39 @@ import {
   UserAddOutlined,
   UserOutlined,
 } from "@ant-design/icons";
-import { Menu } from "antd";
+import { Menu, message } from "antd";
 import { useContext, useState } from "react";
-import { Navigate, NavLink } from "react-router-dom";
+import { Navigate, NavLink, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/auth.context";
+import { logoutAPI } from "../../services/api.service";
 
 const Header = () => {
   const [current, setCurrent] = useState("");
 
-  const { user } = useContext(AuthContext);
+  const { user, setUser } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   console.log("user ", user);
   const onClick = (e) => {
     console.log("click ", e);
     setCurrent(e.key);
+  };
+
+  const hanldeLogout = async () => {
+    const res = await logoutAPI();
+    if (res.data) {
+      localStorage.removeItem("access_token");
+      setUser({
+        email: "",
+        phone: "",
+        fullName: "",
+        role: "",
+        avatar: "",
+        id: "",
+      });
+      message.success("Logout user successfully");
+      navigate("/");
+    }
   };
 
   const items = [
@@ -68,15 +87,13 @@ const Header = () => {
             children: [
               {
                 label: (
-                  <NavLink
+                  <span
                     onClick={() => {
-                      localStorage.removeItem("access_token");
-                      window.location.reload();
-                      Navigate("/login");
+                      hanldeLogout();
                     }}
                   >
                     Logout
-                  </NavLink>
+                  </span>
                 ),
                 key: "logout",
                 icon: <LoginOutlined />,
