@@ -1,7 +1,16 @@
-import { Button, Checkbox, Col, Form, Input, notification, Row } from "antd";
+import {
+  Button,
+  Checkbox,
+  Col,
+  Divider,
+  Form,
+  Input,
+  notification,
+  Row,
+} from "antd";
 import React from "react";
 import { registerUserAPI } from "../services/api.service";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const RegisterPage = () => {
   const [form] = Form.useForm();
@@ -108,11 +117,16 @@ const RegisterPage = () => {
         </Row>
         <Row justify={"center"}>
           <Col xs={24} md={16}>
-            <Form.Item label={null}>
+            <div>
+              {" "}
               <Button type="primary" htmlType="submit">
                 Submit
               </Button>
-            </Form.Item>
+              <Divider />
+              <div>
+                Đã có tài khoản?<Link to={"/login"}> Đăng nhập ngay</Link>
+              </div>
+            </div>
           </Col>
         </Row>
       </Form>
