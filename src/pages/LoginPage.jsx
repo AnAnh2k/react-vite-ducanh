@@ -1,14 +1,41 @@
 import { ArrowRightOutlined, ArrowUpOutlined } from "@ant-design/icons";
-import { Button, Col, Divider, Form, Input, Row } from "antd";
-import React from "react";
+import {
+  Button,
+  Col,
+  Divider,
+  Form,
+  Input,
+  message,
+  notification,
+  Row,
+} from "antd";
+import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { loginUserAPI } from "../services/api.service";
+import { AuthContext } from "../components/context/auth.context";
 
 const LoginPage = () => {
   const [form] = Form.useForm();
   const navigate = useNavigate();
+  const [loading, setIsLoading] = useState(false);
+  const { setUser } = useContext(AuthContext);
 
   const onFinish = async (values) => {
-    console.log("Success:", values);
+    setIsLoading(true);
+    const res = await loginUserAPI(values.email, values.password);
+    if (res.data) {
+      message.success("Login user successfully");
+      localStorage.setItem("access_token", res.data.access_token);
+      setUser(res.data.user);
+      form.resetFields();
+      navigate("/");
+    } else {
+      notification.error({
+        message: "Login user",
+        description: JSON.stringify(res.message),
+      });
+    }
+    setIsLoading(false);
   };
   return (
     <>
@@ -59,7 +86,7 @@ const LoginPage = () => {
                 }}
               >
                 {" "}
-                <Button type="primary" htmlType="submit">
+                <Button type="primary" htmlType="submit" loading={loading}>
                   Login
                 </Button>
                 <Link to="/">

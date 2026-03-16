@@ -8,8 +8,9 @@ import {
   UserOutlined,
 } from "@ant-design/icons";
 import { Menu } from "antd";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { NavLink } from "react-router-dom";
+import { AuthContext } from "../context/auth.context";
 const items = [
   {
     label: <NavLink to="/">Home</NavLink>,
@@ -46,7 +47,11 @@ const items = [
   },
 ];
 const Header = () => {
-  const [current, setCurrent] = useState("home");
+  const [current, setCurrent] = useState("");
+
+  const { user } = useContext(AuthContext);
+
+  console.log("user ", user);
   const onClick = (e) => {
     console.log("click ", e);
     setCurrent(e.key);
