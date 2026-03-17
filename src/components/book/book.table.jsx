@@ -3,6 +3,7 @@ import { deleteUserAPI } from "../../services/api.service";
 import { notification, Popconfirm, Table } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import ViewBookDetail from "./view.book.detail";
+import UpdateBook from "./update.book.modal";
 
 const BookTable = (props) => {
   const {
@@ -14,7 +15,7 @@ const BookTable = (props) => {
     setCurrent,
     setPageSize,
   } = props;
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpenBookUpdate, setIsModalOpenBookUpdate] = useState(false);
   const [dataUpdate, setDataUpdate] = useState(null);
   const [openDetailBook, setOpenDetailBook] = useState(false);
   const [dataDetailBook, setDataDetailBook] = useState(null);
@@ -98,12 +99,12 @@ const BookTable = (props) => {
       render: (_, record) => (
         <div style={{ display: "flex", gap: "20px" }}>
           <EditOutlined
-          // onClick={() => {
-          //   setDataUpdate(record);
-          //   console.log("record", record);
-          //   setIsModalOpen(true);
-          // }}
-          // style={{ cursor: "pointer", color: "orange" }}
+            onClick={() => {
+              setDataUpdate(record);
+              console.log("record", record);
+              setIsModalOpenBookUpdate(true);
+            }}
+            style={{ cursor: "pointer", color: "orange" }}
           />
           <Popconfirm
             title="Delete a user"
@@ -158,14 +159,14 @@ const BookTable = (props) => {
         }}
         onChange={onChange}
       />
-      {/* <UpdateUserModal
-        isModalOpen={isModalOpen}
-        setIsModalOpen={setIsModalOpen}
+      <UpdateBook
+        isModalOpenBookUpdate={isModalOpenBookUpdate}
+        setIsModalOpenBookUpdate={setIsModalOpenBookUpdate}
         dataUpdate={dataUpdate}
         setDataUpdate={setDataUpdate}
-        loadUser={loadUser}
+        loadBook={loadBook}
       />
-      */}
+
       <ViewBookDetail
         openDetailBook={openDetailBook}
         setOpenDetailBook={setOpenDetailBook}
